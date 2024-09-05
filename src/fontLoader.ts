@@ -1,12 +1,12 @@
 // fontLoader.js
-const loadFont = (weight, url) => {
+const loadFont = (weight: string, url: string) => {
   return new Promise((resolve, reject) => {
     const font = new FontFace('Overpass', `url(${url})`, { weight })
     font
       .load()
       .then(() => {
         document.fonts.add(font)
-        resolve()
+        resolve(0)
       })
       .catch(reject)
   })

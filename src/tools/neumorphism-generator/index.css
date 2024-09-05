@@ -1,0 +1,52 @@
+.neu-box {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  display: flex;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.neu-box--light {
+  display: block;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border: 3px solid #fff;
+  cursor: pointer;
+  background-color: transparent;
+}
+.top-left {
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 100%;
+}
+.top-right {
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 100%;
+}
+.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top-right-radius: 100%;
+}
+.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top-left-radius: 100%;
+}
+.glow {
+  background-color: yellow;
+  border: none;
+}
+.neu-controls {
+}
+.neu-box--visual {
+  width: 300px;
+  height: 300px;
+  background-color: red;
+  margin: auto;
+}

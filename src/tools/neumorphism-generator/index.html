@@ -1,0 +1,198 @@
+
+    <!-- <template id="neumorphic-generator"> -->
+      <style>
+        :host {
+            /* Border Radius */
+            --border-radius: 10%; /* Radius for rounded corners */
+
+            /* Base Color */
+            --base-color: #d5271e; /* Background color of the element */
+            --gradient-angle: 145deg;
+            /* Size */
+            --element-size: 300px; /* Font size for text inside the element */
+            --element-height: 300px; /* Font size for text inside the element */
+
+            --intensity: 0.1;
+            --elevation: 10; /* Base elevation value */
+            --shadow-direction-x-dark: 1; /* 1 for right, -1 for left */
+            --shadow-direction-y-dark: 1; /* 1 for down, -1 for up */
+            --shadow-direction-x-light: -1; /* 1 for right, -1 for left */
+            --shadow-direction-y-light: -1; /* 1 for down, -1 for up */
+            --blur-radius: 2;
+            --shadow-type: ;
+
+            --shadow-horizontal-offset-dark: calc(var(--elevation) * var(--shadow-direction-x-dark) * 1px);
+            --shadow-vertical-offset-dark: calc(var(--elevation) * var(--shadow-direction-y-dark) * 1px);
+            --shadow-blur-radius-dark: calc(var(--blur-radius)*1px);
+            --shadow-color-dark: rgba(20, 20, 20, var(--intensity));
+
+
+            --shadow-horizontal-offset-light: calc(var(--elevation) * var(--shadow-direction-x-light) * 1px);
+            --shadow-vertical-offset-light: calc(var(--elevation) * var(--shadow-direction-y-light) * 1px);
+            --shadow-blur-radius-light: calc(var(--blur-radius)*1px);
+            --shadow-color-light: rgba(235, 235, 235, var(--intensity));
+
+
+
+
+        }
+       .neumorphic-element {
+          background: var(--base-color); /* Background color */
+          border-radius: var(--border-radius); /* Radius for rounded corners */
+          width: var(--element-size); /* Width of the element */
+          height: var(--element-height); /* Height of the element */
+
+          /* Box Shadow */
+          box-shadow:
+             var(--shadow-type) var(--shadow-horizontal-offset-dark) var(--shadow-vertical-offset-dark) var(--shadow-blur-radius-dark) var(--shadow-color-dark), /* Dark shadow */
+              var(--shadow-type) var(--shadow-horizontal-offset-light) var(--shadow-vertical-offset-light) var(--shadow-blur-radius-light) var(--shadow-color-light); /* Light shadow */
+          color: var(--text-color, #000); /* Text color with fallback */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* Optional: Adding some padding and text alignment */
+          text-align: center;
+          font-size: 1rem;
+      }
+
+        .neu-box--light {
+          display: none;
+        }
+        .neu-box {
+          width: 500px;
+          height: 500px;
+          position: relative;
+          display: flex;
+        }
+        .flex-center {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+        }
+        .neu-box--light {
+          display: block;
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          border:none;
+          cursor: pointer;
+          background-color: #fff;
+          border: 2px solid black;
+        }
+        .top-left {
+          top: 0;
+          left: 0;
+          border-bottom-right-radius: 100%;
+        }
+        .top-right {
+          top: 0;
+          right: 0;
+          border-bottom-left-radius: 100%;
+        }
+        .bottom-left {
+          bottom: 0;
+          left: 0;
+          border-top-right-radius: 100%;
+        }
+        .bottom-right {
+          bottom: 0;
+          right: 0;
+          border-top-left-radius: 100%;
+        }
+        .glow {
+          background-color: yellow;
+          border: none;
+        }
+        .neu-controls {
+          width: 40%;
+        }
+        .neu-box--visual {
+          margin: auto;
+        }
+        .neu--control-group {
+          display: flex;
+          margin-bottom: 1em;
+        }
+        .neu--control-group :first-child {
+          margin-right: 10px;
+        }
+        .neu--control-group :last-child {
+          flex: auto;
+        }
+       .glow-button {
+          background-color: #ffff00;
+          transition: all 0.3s ease;
+        }
+        .hidden {
+          display: none;
+        }
+      </style>
+      <div class="neu--container">
+        <div class="flex-center">
+          <div class="neu-box" id="neu-box">
+            <button class="neu-box--light top-left glow-button" data-type="direction-top-left">
+            </button>
+            <button class="neu-box--light top-right" data-type="direction-top-right"></button>
+            <button class="neu-box--light bottom-left" data-type="direction-bottom-left"></button>
+            <button class="neu-box--light bottom-right" data-type="direction-bottom-right"></button>
+            <div class="neu-box--visual neumorphic-element"></div>
+          </div>
+          <div class="neu-controls" id="neu-controls">
+            <div class="neu--control-group ">
+                <div>
+                  <input type="checkbox"  name="elementShape" id="neu--height" value="rectangle"  data-type="dimensions">
+                    <label for="neu--height">Enable height</label>
+                </div>
+            </div>
+            <div class="neu--control-group">
+              <label for="neu--baseColor">Surface color:</label>
+              <div class="color-input">
+                <input type="color" id="neu--baseColor" value="#d5271e" data-type="colorPicker">
+                <input type="text" id="neu--baseColorText" value="#d5271e" data-type="colorInput">
+              </div>
+            </div>
+            <div class="neu--control-group element-square">
+              <label for="elementSize">Element Size:</label>
+              <input type="range" id="elementSize" min="50" max="400" value="200" data-type="size">
+            </div>
+
+            <div class="neu--control-group neu--height-control hidden">
+              <label for="elementHeight"> Height:</label>
+              <input type="range" id="elementHeight" min="50" max="400" value="200" data-type="height">
+            </div>
+
+            <div class="neu--control-group">
+              <label for="neu--size">Elevation:</label>
+              <input type="range" id="neu--size" min="5" max="50" value="10" data-type="elevation">
+            </div>
+
+            <div class="neu--control-group">
+              <label for="neu--blur">Blur:</label>
+              <input type="range" id="neu--blur" min="0" max="100" value="20" data-type="blur">
+            </div>
+
+            <div class="neu--control-group">
+              <label for="neu--borderRadius">Border Radius:</label>
+              <input type="range" id="neu--borderRadius" min="0" max="50" value="10" data-type="radius">
+            </div>
+
+            <div class="neu--control-group">
+              <label for="neu--intensity">Intensity:</label>
+              <input type="range" id="neu--intensity" min="0.01" max="0.5" step="0.01" value="0.15" data-type="intensity">
+            </div>
+
+
+            <div class="neu--control-group">
+              <label for="neu--shape">Shape:</label>
+              <select id="neu--shape" data-type="shape">
+                <option value="neu--flat">Flat</option>
+                <option value="neu--concave">Concave</option>
+                <option value="neu--convex">Convex</option>
+                <option value="neu--pressed">Pressed</option>
+              </select>
+            </div>
+          </div>          </div>
+        </div>
+      </div>
+    <!-- </template> -->
+

@@ -1,34 +1,38 @@
-:root {
-  --color-bg: #2c3e50;
-  --color-text: #ecf0f1;
-  --color-primary: #3498db;
-  --color-secondary: #2ecc71;
-  --color-accent: #e74c3c;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --highlight-color: rgba(255, 255, 255, 0.1);
+@layer theme-dark {
+  :root {
+    --color-bg: #2c3e50;
+    --color-text: #ecf0f1;
+    --color-primary: #3498db;
+    --color-secondary: #2ecc71;
+    --color-accent: #e74c3c;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --highlight-color: rgba(255, 255, 255, 0.1);
 
-  --font-main: 'Arial', sans-serif;
-  --font-heading: 'Helvetica', sans-serif;
+    --font-main: 'Overpass', sans-serif;
+    --font-heading: 'Helvetica', sans-serif;
+    --font-size: 1.6rem;
 
-  --spacing-small: 8px;
-  --spacing-medium: 16px;
-  --spacing-large: 24px;
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
 
-  --border-radius: 8px;
-}
+    --border-radius: 8px;
+  }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-main);
-}
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    font-size: var(--font-size);
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  color: var(--color-primary);
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+  }
 }

@@ -1,3 +1,7 @@
+@layer reset, base, theme-dark, theme-light, components, features, utilities;
+
 @import 'base/_reset.css';
 @import 'themes/_light.css';
+@import 'layout/_layout.css';
+
 /* @import 'themes/_dark.css'; */

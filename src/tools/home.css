@@ -1,0 +1,59 @@
+@layer components {
+  .unstyled-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+  .home--theme-btn {
+    position: absolute;
+    right: 13px;
+  }
+  .homepage--title {
+    text-align: center;
+  }
+
+  .homepage--title .homepage--subtitle {
+    text-align: center;
+    display: block;
+  }
+  .homepage--title .bold {
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--color-primary);
+    font-style: italic;
+  }
+  .homepage--body {
+    padding: var(--spacing-medium);
+  }
+  .homepage--css-generator-img {
+    max-width: 100%;
+  }
+  .homepage--cards {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-medium);
+    max-width: 660px;
+    margin: auto;
+  }
+  .card-button {
+    background-color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-medium);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    width: 319px;
+    height: 319px;
+    flex: 0 1 auto;
+  }
+
+  .card-button:hover {
+    transform: scale(1.05);
+  }
+}
