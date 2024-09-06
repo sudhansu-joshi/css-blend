@@ -3,34 +3,34 @@
       <style>
         :host {
             /* Border Radius */
-            --border-radius: 10%; /* Radius for rounded corners */
+            --border-radius: 30%; /* Radius for rounded corners */
 
             /* Base Color */
-            --base-color: #d5271e; /* Background color of the element */
+            --base-color: #e0e0e0; /* Background color of the element */
             --gradient-angle: 145deg;
             /* Size */
             --element-size: 300px; /* Font size for text inside the element */
             --element-height: 300px; /* Font size for text inside the element */
 
             --intensity: 0.1;
-            --elevation: 10; /* Base elevation value */
+            --elevation: 20; /* Base elevation value */
             --shadow-direction-x-dark: 1; /* 1 for right, -1 for left */
             --shadow-direction-y-dark: 1; /* 1 for down, -1 for up */
             --shadow-direction-x-light: -1; /* 1 for right, -1 for left */
             --shadow-direction-y-light: -1; /* 1 for down, -1 for up */
-            --blur-radius: 2;
+            --blur-radius: 60;
             --shadow-type: ;
 
             --shadow-horizontal-offset-dark: calc(var(--elevation) * var(--shadow-direction-x-dark) * 1px);
             --shadow-vertical-offset-dark: calc(var(--elevation) * var(--shadow-direction-y-dark) * 1px);
             --shadow-blur-radius-dark: calc(var(--blur-radius)*1px);
-            --shadow-color-dark: rgba(20, 20, 20, var(--intensity));
+            --shadow-color-dark: #bebebe;
 
 
             --shadow-horizontal-offset-light: calc(var(--elevation) * var(--shadow-direction-x-light) * 1px);
             --shadow-vertical-offset-light: calc(var(--elevation) * var(--shadow-direction-y-light) * 1px);
             --shadow-blur-radius-light: calc(var(--blur-radius)*1px);
-            --shadow-color-light: rgba(235, 235, 235, var(--intensity));
+            --shadow-color-light: #ffffff;
 
 
 
@@ -147,8 +147,8 @@
             <div class="neu--control-group">
               <label for="neu--baseColor">Surface color:</label>
               <div class="color-input">
-                <input type="color" id="neu--baseColor" value="#d5271e" data-type="colorPicker">
-                <input type="text" id="neu--baseColorText" value="#d5271e" data-type="colorInput">
+                <input type="color" id="neu--baseColor" value="#e0e0e0" data-type="colorPicker">
+                <input type="text" id="neu--baseColorText" value="#e0e0e0" data-type="colorInput">
               </div>
             </div>
             <div class="neu--control-group element-square">
@@ -178,7 +178,7 @@
 
             <div class="neu--control-group">
               <label for="neu--intensity">Intensity:</label>
-              <input type="range" id="neu--intensity" min="0.01" max="0.5" step="0.01" value="0.15" data-type="intensity">
+              <input type="range" id="neu--intensity" min="0.2" max="0.6" step="0.01" value="0.15" data-type="intensity">
             </div>
 
 
