@@ -1,3 +1,5 @@
+import { debug } from 'console'
+
 class NeumorphicGenerator extends HTMLElement {
   shadow: any
   constructor() {
@@ -184,6 +186,15 @@ class NeumorphicGenerator extends HTMLElement {
     const target = event.target as HTMLInputElement
     const intensityValue = parseFloat(target.value)
     this.style.setProperty('--intensity', intensityValue.toString())
+    const baseColor = this.getHostCSSVariable('--base-color').trim()
+    debugger
+    const { darkShadow, lightShadow } = this.generateShadowColors(
+      baseColor,
+      intensityValue
+    )
+
+    this.style.setProperty('--shadow-color-dark', darkShadow)
+    this.style.setProperty('--shadow-color-light', lightShadow)
   }
 
   handleColorChange(event: Event) {
@@ -196,21 +207,55 @@ class NeumorphicGenerator extends HTMLElement {
     colorInput.value = value
     colorPicker.value = value
     this.updateNeumorphicStyle('base-color', value)
-    const { darkShadow, lightShadow } = this.generateShadowColors(value)
-    const darkRGB = this.hexToRGB(darkShadow)
-    const lightRGB = this.hexToRGB(lightShadow)
-    this.style.setProperty(
-      '--shadow-color-dark',
-      `rgba(${darkRGB.r}, ${darkRGB.g}, ${darkRGB.b}, var(--intensity))`
-    )
-    this.style.setProperty(
-      '--shadow-color-light',
-      `rgba(${lightRGB.r}, ${lightRGB.g}, ${lightRGB.b}, var(--intensity))`
+    const intensity = this.style.getPropertyValue('--intensity')
+    const { darkShadow, lightShadow } = this.generateShadowColors(
+      value,
+      +intensity
     )
     debugger
+    this.style.setProperty('--shadow-color-dark', darkShadow)
+    this.style.setProperty('--shadow-color-light', lightShadow)
     root.style.setProperty('--color-bg', value)
   }
+  // -------------------------------------------------
+  private generateShadowColors(
+    baseColor: string,
+    intensity: number
+  ): { darkShadow: string; lightShadow: string } {
+    const darkShadow = this.calculateDarkShadow(baseColor, intensity)
+    const lightShadow = this.calculateLightShadow(baseColor, intensity)
+    return { darkShadow, lightShadow }
+  }
 
+  private calculateDarkShadow(baseColor: string, intensity: number): string {
+    const r = parseInt(baseColor.slice(1, 3), 16)
+    const g = parseInt(baseColor.slice(3, 5), 16)
+    const b = parseInt(baseColor.slice(5, 7), 16)
+
+    const newR = Math.round(r * (1 - intensity * 0.5))
+    const newG = Math.round(g * (1 - intensity * 0.5))
+    const newB = Math.round(b * (1 - intensity * 0.5))
+
+    return `#${newR.toString(16).padStart(2, '0')}${newG
+      .toString(16)
+      .padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`
+  }
+
+  private calculateLightShadow(baseColor: string, intensity: number): string {
+    const r = parseInt(baseColor.slice(1, 3), 16)
+    const g = parseInt(baseColor.slice(3, 5), 16)
+    const b = parseInt(baseColor.slice(5, 7), 16)
+
+    const newR = Math.round(r + (255 - r) * intensity * 0.5)
+    const newG = Math.round(g + (255 - g) * intensity * 0.5)
+    const newB = Math.round(b + (255 - b) * intensity * 0.5)
+
+    return `#${newR.toString(16).padStart(2, '0')}${newG
+      .toString(16)
+      .padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`
+  }
+
+  // -------------------------------------------------
   handleLightButtonClick(event: Event) {
     const target = event.target as HTMLElement
     const type = target.dataset.type
@@ -292,33 +337,6 @@ class NeumorphicGenerator extends HTMLElement {
     return `#${r.toString(16).padStart(2, '0')}${g
       .toString(16)
       .padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
-  }
-  adjustBrightness(color: string, amount: number) {
-    return (
-      '#' +
-      color
-        .replace(/^#/, '')
-        .replace(/../g, (color) =>
-          (
-            '0' +
-            Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
-              16
-            )
-          ).substr(-2)
-        )
-    )
-  }
-
-  generateShadowColors(baseColor: string) {
-    const darkShadow = this.adjustBrightness(baseColor, -50)
-    const lightShadow = this.adjustBrightness(baseColor, 50)
-    return { darkShadow, lightShadow }
-  }
-  hexToRGB(hex: string) {
-    const r = parseInt(hex.slice(1, 3), 16)
-    const g = parseInt(hex.slice(3, 5), 16)
-    const b = parseInt(hex.slice(5, 7), 16)
-    return { r, g, b }
   }
 
   getHostCSSVariable(variableName: string): string {
