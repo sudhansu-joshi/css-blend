@@ -1,7 +1,6 @@
 import './home.css'
 
 function toggleTheme() {
-  debugger
   const currentTheme = localStorage.getItem('theme') || 'light'
   const themeIconBtn = document.querySelector('.home--theme-btn')
   if (!themeIconBtn) return

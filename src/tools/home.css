@@ -27,7 +27,7 @@
     font-style: italic;
   }
   .homepage--body {
-    padding: var(--spacing-medium);
+    /* padding: var(--spacing-medium);   */
   }
   .homepage--css-generator-img {
     max-width: 100%;

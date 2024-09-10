@@ -1,198 +1,521 @@
+<!-- <template id="neumorphic-generator"> -->
+<style>
+  :host {
+    /* Border Radius */
+    --border-radius: 30%;
+    /* Radius for rounded corners */
 
-    <!-- <template id="neumorphic-generator"> -->
-      <style>
-        :host {
-            /* Border Radius */
-            --border-radius: 30%; /* Radius for rounded corners */
+    /* Base Color */
+    --base-color: #e0e0e0;
+    /* Background color of the element */
+    --gradient-angle: 145deg;
+    /* Size */
+    --element-size: 300px;
+    /* Font size for text inside the element */
+    --element-height: 300px;
+    /* Font size for text inside the element */
 
-            /* Base Color */
-            --base-color: #e0e0e0; /* Background color of the element */
-            --gradient-angle: 145deg;
-            /* Size */
-            --element-size: 300px; /* Font size for text inside the element */
-            --element-height: 300px; /* Font size for text inside the element */
+    --intensity: 0.15;
+    --elevation: 20;
+    /* Base elevation value */
+    --shadow-direction-x-dark: 1;
+    /* 1 for right, -1 for left */
+    --shadow-direction-y-dark: 1;
+    /* 1 for down, -1 for up */
+    --shadow-direction-x-light: -1;
+    /* 1 for right, -1 for left */
+    --shadow-direction-y-light: -1;
+    /* 1 for down, -1 for up */
+    --blur-radius: 60;
+    --shadow-type: ;
 
-            --intensity: 0.1;
-            --elevation: 20; /* Base elevation value */
-            --shadow-direction-x-dark: 1; /* 1 for right, -1 for left */
-            --shadow-direction-y-dark: 1; /* 1 for down, -1 for up */
-            --shadow-direction-x-light: -1; /* 1 for right, -1 for left */
-            --shadow-direction-y-light: -1; /* 1 for down, -1 for up */
-            --blur-radius: 60;
-            --shadow-type: ;
-
-            --shadow-horizontal-offset-dark: calc(var(--elevation) * var(--shadow-direction-x-dark) * 1px);
-            --shadow-vertical-offset-dark: calc(var(--elevation) * var(--shadow-direction-y-dark) * 1px);
-            --shadow-blur-radius-dark: calc(var(--blur-radius)*1px);
-            --shadow-color-dark: #bebebe;
-
-
-            --shadow-horizontal-offset-light: calc(var(--elevation) * var(--shadow-direction-x-light) * 1px);
-            --shadow-vertical-offset-light: calc(var(--elevation) * var(--shadow-direction-y-light) * 1px);
-            --shadow-blur-radius-light: calc(var(--blur-radius)*1px);
-            --shadow-color-light: #fff;
+    --shadow-horizontal-offset-dark: calc(var(--elevation) * var(--shadow-direction-x-dark) * 1px);
+    --shadow-vertical-offset-dark: calc(var(--elevation) * var(--shadow-direction-y-dark) * 1px);
+    --shadow-blur-radius-dark: calc(var(--blur-radius)*1px);
+    --shadow-color-dark: #bebebe;
 
 
+    --shadow-horizontal-offset-light: calc(var(--elevation) * var(--shadow-direction-x-light) * 1px);
+    --shadow-vertical-offset-light: calc(var(--elevation) * var(--shadow-direction-y-light) * 1px);
+    --shadow-blur-radius-light: calc(var(--blur-radius)*1px);
+    --shadow-color-light: #fff;
 
 
-        }
-       .neumorphic-element {
-          background: var(--base-color); /* Background color */
-          border-radius: var(--border-radius); /* Radius for rounded corners */
-          width: var(--element-size); /* Width of the element */
-          height: var(--element-height); /* Height of the element */
 
-          /* Box Shadow */
-          box-shadow:
-             var(--shadow-type) var(--shadow-horizontal-offset-dark) var(--shadow-vertical-offset-dark) var(--shadow-blur-radius-dark) var(--shadow-color-dark), /* Dark shadow */
-              var(--shadow-type) var(--shadow-horizontal-offset-light) var(--shadow-vertical-offset-light) var(--shadow-blur-radius-light) var(--shadow-color-light); /* Light shadow */
-          color: var(--text-color, #000); /* Text color with fallback */
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          /* Optional: Adding some padding and text alignment */
-          text-align: center;
-          font-size: 1rem;
-      }
 
-        .neu-box--light {
-          display: none;
-        }
-        .neu-box {
-          width: 500px;
-          height: 500px;
-          position: relative;
-          display: flex;
-        }
-        .flex-center {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-        }
-        .neu-box--light {
-          display: block;
-          width: 50px;
-          height: 50px;
-          position: absolute;
-          border:none;
-          cursor: pointer;
-          background-color: #fff;
-          border: 2px solid black;
-        }
-        .top-left {
-          top: 0;
-          left: 0;
-          border-bottom-right-radius: 100%;
-        }
-        .top-right {
-          top: 0;
-          right: 0;
-          border-bottom-left-radius: 100%;
-        }
-        .bottom-left {
-          bottom: 0;
-          left: 0;
-          border-top-right-radius: 100%;
-        }
-        .bottom-right {
-          bottom: 0;
-          right: 0;
-          border-top-left-radius: 100%;
-        }
-        .glow {
-          background-color: yellow;
-          border: none;
-        }
-        .neu-controls {
-          width: 40%;
-        }
-        .neu-box--visual {
-          margin: auto;
-        }
-        .neu--control-group {
-          display: flex;
-          margin-bottom: 1em;
-        }
-        .neu--control-group :first-child {
-          margin-right: 10px;
-        }
-        .neu--control-group :last-child {
+  }
+
+  .neumorphic-element {
+    background: var(--base-color);
+    /* Background color */
+    border-radius: var(--border-radius);
+    /* Radius for rounded corners */
+    width: var(--element-size);
+    /* Width of the element */
+    height: var(--element-height);
+    /* Height of the element */
+
+    /* Box Shadow */
+    box-shadow:
+      var(--shadow-type) var(--shadow-horizontal-offset-dark) var(--shadow-vertical-offset-dark) var(--shadow-blur-radius-dark) var(--shadow-color-dark),
+      /* Dark shadow */
+      var(--shadow-type) var(--shadow-horizontal-offset-light) var(--shadow-vertical-offset-light) var(--shadow-blur-radius-light) var(--shadow-color-light);
+    /* Light shadow */
+    color: var(--color-text, #000);
+    /* Text color with fallback */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Optional: Adding some padding and text alignment */
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .neu-box--light {
+    display: none;
+  }
+
+  .neu-box {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: flex;
+  }
+
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10%;
+
+  }
+
+  .neu-box--light {
+    display: block;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+    border: 2px solid black;
+  }
+
+  .top-left {
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 100%;
+  }
+
+  .top-right {
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 100%;
+  }
+
+  .bottom-left {
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 100%;
+  }
+
+  .bottom-right {
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 100%;
+  }
+
+  .glow {
+    background-color: yellow;
+    border: none;
+  }
+
+  .neu-controls {
+    width: 50%;
+    transition: all 0.3s ease;
+    font-size: var(--font-size);
+  }
+
+  .neu-box--visual {
+    margin: auto;
+  }
+
+  .neu--control-group {
+    display: flex;
+    margin-bottom: 1em;
+    align-items: center;
+    font-weight: 600;
+    height: 3rem;
+    font-size: 1.8rem;
+  }
+
+  .neu--control-group :first-child {
+    margin-right: 10px;
+  }
+
+  /* .neu--control-group :last-child {
           flex: auto;
-        }
-       .glow-button {
-          background-color: #ffff00;
-          transition: all 0.3s ease;
-        }
-        .hidden {
-          display: none;
-        }
-      </style>
-      <div class="neu--container">
-        <div class="flex-center">
-          <div class="neu-box" id="neu-box">
-            <button class="neu-box--light top-left glow-button" data-type="direction-top-left">
-            </button>
-            <button class="neu-box--light top-right" data-type="direction-top-right"></button>
-            <button class="neu-box--light bottom-left" data-type="direction-bottom-left"></button>
-            <button class="neu-box--light bottom-right" data-type="direction-bottom-right"></button>
-            <div class="neu-box--visual neumorphic-element"></div>
-          </div>
-          <div class="neu-controls" id="neu-controls">
-            <div class="neu--control-group ">
-                <div>
-                  <input type="checkbox"  name="elementShape" id="neu--height" value="rectangle"  data-type="dimensions">
-                    <label for="neu--height">Enable height</label>
-                </div>
-            </div>
-            <div class="neu--control-group">
-              <label for="neu--baseColor">Surface color:</label>
-              <div class="color-input">
-                <input type="color" id="neu--baseColor" value="#e0e0e0" data-type="colorPicker">
-                <input type="text" id="neu--baseColorText" value="#e0e0e0" data-type="colorInput">
-              </div>
-            </div>
-            <div class="neu--control-group element-square">
-              <label for="elementSize">Element Size:</label>
-              <input type="range" id="elementSize" min="50" max="400" value="200" data-type="size">
-            </div>
+        } */
+  .neu--control-group.intensity-control {
+    margin-bottom: 0px;
+  }
 
-            <div class="neu--control-group neu--height-control hidden">
-              <label for="elementHeight"> Height:</label>
-              <input type="range" id="elementHeight" min="50" max="400" value="200" data-type="height">
-            </div>
+  .glow-button {
+    background-color: #ffff00;
+    transition: all 0.3s ease;
+  }
 
-            <div class="neu--control-group">
-              <label for="neu--size">Elevation:</label>
-              <input type="range" id="neu--size" min="5" max="50" value="10" data-type="elevation">
-            </div>
+  .hidden {
+    display: none;
+  }
 
-            <div class="neu--control-group">
-              <label for="neu--blur">Blur:</label>
-              <input type="range" id="neu--blur" min="0" max="100" value="20" data-type="blur">
-            </div>
+  .neu--container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin: auto; */
+    height: calc(100vh - 50px);
+  }
 
-            <div class="neu--control-group">
-              <label for="neu--borderRadius">Border Radius:</label>
-              <input type="range" id="neu--borderRadius" min="0" max="50" value="10" data-type="radius">
-            </div>
-
-            <div class="neu--control-group">
-              <label for="neu--intensity">Intensity:</label>
-              <input type="range" id="neu--intensity" min="0.1" max="0.6" step="0.01" value="0.15" data-type="intensity">
-            </div>
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--color-text);
+    border-radius: 3px;
+    outline: none;
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
 
 
-            <div class="neu--control-group">
-              <label for="neu--shape">Shape:</label>
-              <select id="neu--shape" data-type="shape">
-                <option value="neu--flat">Flat</option>
-                <option value="neu--concave">Concave</option>
-                <option value="neu--convex">Convex</option>
-                <option value="neu--pressed">Pressed</option>
-              </select>
-            </div>
-          </div>          </div>
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--color-text);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--color-text);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover,
+  input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  input[type="color"] {
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--color-text);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  input[type="color"]:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--color-text);
+  }
+
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+  }
+
+  input[type="text"]#neu--baseColorText {
+    background-color: transparent;
+    color: var(--color-text);
+    border: 2px solid var(--color-text);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100px;
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]#neu--baseColorText:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--color-text);
+  }
+
+  #neu--height {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-text);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #neu--height:checked {
+    background-color: var(--color-text);
+    position: relative;
+  }
+
+  #neu--height:checked::before {
+    content: '\2713';
+    font-size: 16px;
+    color: var(--base-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #neu--height:hover {
+    box-shadow: 0 0 5px rgba(168, 113, 113, 0.5);
+  }
+
+
+  .color-input {
+    display: flex;
+    align-items: center;
+  }
+
+  .neu-layout-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.3s ease;
+    background-color: var(--base-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+  }
+
+  .neu-layout-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .neu-layout-btn.active {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .neu-layout-btn.neu--flat {
+    box-shadow:
+      3px 3px 6px rgba(0, 0, 0, 0.2),
+      -3px -3px 6px rgba(255, 255, 255, 0.2);
+  }
+
+  .neu-layout-btn.neu--concave {
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+    box-shadow:
+      3px 3px 6px rgba(0, 0, 0, 0.2),
+      -3px -3px 6px rgba(255, 255, 255, 0.2);
+  }
+
+  .neu-layout-btn.neu--convex {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    box-shadow:
+      3px 3px 6px rgba(0, 0, 0, 0.2),
+      -3px -3px 6px rgba(255, 255, 255, 0.2);
+  }
+
+  .neu-layout-btn.neu--pressed {
+    box-shadow:
+      inset 3px 3px 6px rgba(0, 0, 0, 0.2),
+      inset -3px -3px 6px rgba(255, 255, 255, 0.2);
+  }
+
+  .neu-layout-btn.selected {
+    font-size: 10px;
+    color: #0000EE;
+    transition: none;
+  }
+
+  .code-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 15px;
+    height: 130px;
+  }
+
+
+
+  .code-container code {
+    display: block;
+  }
+
+  .dark-box {
+    position: relative;
+    width: 350px;
+    border-radius: 50px;
+    color: #fff;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 7px;
+    right: -20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 0px;
+    transition: all 0.3s ease;
+  }
+
+  .copy-btn:active {
+    transform: scale(0.98);
+    box-shadow: inset -6px 6px 10px #614b4b,
+      inset 6px -6px 10px #e19797;
+  }
+
+  pre {
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #ffffff;
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  .code-block {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #1E1E1E;
+    color: #D4D4D4;
+    padding: 10px;
+  }
+
+  .code-line {
+    display: flex;
+  }
+
+  .property {
+    color: #9CDCFE;
+    margin-right: 10px;
+  }
+
+  .value {
+    color: #CE9178;
+  }
+</style>
+<div class="neu--container">
+  <div class="flex-center">
+    <div class="neu-box" id="neu-box">
+      <button class="neu-box--light top-left glow-button" data-type="direction-top-left">
+      </button>
+      <button class="neu-box--light top-right" data-type="direction-top-right"></button>
+      <button class="neu-box--light bottom-left" data-type="direction-bottom-left"></button>
+      <button class="neu-box--light bottom-right" data-type="direction-bottom-right"></button>
+      <div class="neu-box--visual neumorphic-element"></div>
+    </div>
+    <div class="neu-controls" id="neu-controls">
+      <div class="neu--control-group ">
+        <div style="display: flex;align-items: center;">
+          <input type="checkbox" name="elementShape" id="neu--height" value="rectangle" data-type="dimensions">
+          <label for="neu--height">Enable Height</label>
         </div>
       </div>
-    <!-- </template> -->
+      <div class="neu--control-group">
+        <label for="neu--baseColor">Surface color:</label>
+        <div class="color-input">
+          <input type="color" id="neu--baseColor" value="#e0e0e0" data-type="colorPicker">
+          <input type="text" id="neu--baseColorText" value="#e0e0e0" data-type="colorInput">
+        </div>
+      </div>
+      <div class="neu--control-group element-square">
+        <label for="elementSize">Size:</label>
+        <input type="range" id="elementSize" min="50" max="400" value="200" data-type="size">
+      </div>
 
+      <div class="neu--control-group neu--height-control hidden">
+        <label for="elementHeight"> Height:</label>
+        <input type="range" id="elementHeight" min="50" max="400" value="200" data-type="height">
+      </div>
+
+      <div class="neu--control-group">
+        <label for="neu--size">Elevation:</label>
+        <input type="range" id="neu--size" min="5" max="50" value="20" data-type="elevation">
+      </div>
+
+      <div class="neu--control-group">
+        <label for="neu--blur">Blur:</label>
+        <input type="range" id="neu--blur" min="0" max="100" value="60" data-type="blur">
+      </div>
+
+      <div class="neu--control-group">
+        <label for="neu--borderRadius">Radius:</label>
+        <input type="range" id="neu--borderRadius" min="0" max="50" value="10" data-type="radius">
+      </div>
+
+      <div class="neu--control-group intensity-control">
+        <label for="neu--intensity">Intensity:</label>
+        <input type="range" id="neu--intensity" min="0.02" max="0.6" step="0.01" value="0.15" data-type="intensity">
+      </div>
+
+
+      <div class="neu--control-group" style="visibility: hidden;height: 0;">
+        <label for="neu--shape">Shape:</label>
+        <select id="neu--shape" data-type="shape">
+          <option value="neu--flat">Flat</option>
+          <option value="neu--concave">Concave</option>
+          <option value="neu--convex">Convex</option>
+          <option value="neu--pressed">Pressed</option>
+        </select>
+      </div>
+      <div class="neu-layout-buttons">
+        <button class="neu-layout-btn neu--flat selected" data-layout="neu--flat">Flat</button>
+        <button class="neu-layout-btn neu--concave" data-layout="neu--concave">Concave</button>
+        <button class="neu-layout-btn neu--convex" data-layout="neu--convex">Convex</button>
+        <button class="neu-layout-btn neu--pressed" data-layout="neu--pressed">Pressed</button>
+      </div>
+      <div class="neu--control-groups" style="display: block;border-radius: 10px;">
+        <div class="dark-box">
+          <button class="copy-btn">Copy</button>
+          <div class="code-container">
+            <code id="codeToClipboard" style="display: block;padding: 0;margin: 0;">
+          <pre>
+      <span class="code-line">
+        <span class="property">border-radius:</span> <span class="value"  data-value="border-radius">50px;</span>
+      </span>
+      <span class="code-line">
+        <span class="property">background:</span> <span class="value" data-value="background">#a87171;</span>
+      </span>
+      <span class="code-line">
+          <span class="property">box-shadow:</span> <span class="value" data-value="box-shadow">-12px 12px 0px #614b4b,
+                      12px -12px 0px #e19797;</span>
+        </span>
+              </pre>
+              </code>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+<!-- </template> -->

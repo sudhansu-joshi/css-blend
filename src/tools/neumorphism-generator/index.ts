@@ -92,13 +92,49 @@ class NeumorphicGenerator extends HTMLElement {
     const heightSlider = this.shadow.querySelector(
       '[data-type="height"]'
     ) as HTMLSelectElement
-    heightSlider?.addEventListener('change', this.handleHeightChange.bind(this))
+    heightSlider?.addEventListener('input', this.handleHeightChange.bind(this))
+    const selectElement = this.shadow.querySelector('select[data-type="shape"]')
+    const shapeButtons = this.shadow.querySelectorAll('.neu-layout-btn')
+    this.shadow
+      .querySelectorAll('.neu-layout-btn')
+      .forEach((button: Element) => {
+        button.addEventListener('click', () => {
+          if (selectElement) {
+            shapeButtons.forEach((btn: Element) => {
+              btn.classList.remove('selected')
+            })
+            button.classList.add('selected')
+            selectElement.value = (button as any).dataset.layout
+            selectElement.dispatchEvent(new Event('change'))
+          }
+        })
+      })
+    this.shadow.querySelector('.copy-btn').addEventListener('click', () => {
+      const codeElement = this.shadow.querySelector('#codeToClipboard')
+      const textToCopy = codeElement.textContent
+
+      navigator.clipboard.writeText(textToCopy).then(
+        () => {
+          console.log('Copying to clipboard was successful!')
+          // You can add some visual feedback here, like changing the button text temporarily
+          const originalText = this.textContent
+          this.textContent = 'Copied!'
+          setTimeout(() => {
+            this.textContent = originalText
+          }, 2000)
+        },
+        function (err) {
+          console.error('Could not copy text: ', err)
+        }
+      )
+    })
+    this.updateCodeValues()
   }
   handleHeightChange(event: Event) {
     const target = event.target as HTMLInputElement
     const value = target.value
     this.style.setProperty('--element-height', value + 'px')
-    debugger
+    this.updateCodeValues()
   }
   handleShowHeight(event: Event) {
     const target = event.target as HTMLInputElement
@@ -131,6 +167,7 @@ class NeumorphicGenerator extends HTMLElement {
         heightControl.classList.remove('rect-neu-box')
       }
     }
+    this.updateCodeValues()
   }
   handleShapeChange(event: Event) {
     const target = event.target as HTMLSelectElement
@@ -170,6 +207,7 @@ class NeumorphicGenerator extends HTMLElement {
     }
 
     this.setAttribute('data-shape', shape)
+    this.updateCodeValues()
   }
 
   handleElevationChange(event: Event) {
@@ -180,6 +218,7 @@ class NeumorphicGenerator extends HTMLElement {
     const blurElement = this.shadow.querySelector('[data-type=blur]')
     if (+value < 5) return
     blurElement.value = (+value * 2).toString()
+    this.updateCodeValues()
   }
 
   handleIntensityChange(event: Event) {
@@ -187,7 +226,6 @@ class NeumorphicGenerator extends HTMLElement {
     const intensityValue = parseFloat(target.value)
     this.style.setProperty('--intensity', intensityValue.toString())
     const baseColor = this.getHostCSSVariable('--base-color').trim()
-    debugger
     const { darkShadow, lightShadow } = this.generateShadowColors(
       baseColor,
       intensityValue
@@ -195,6 +233,7 @@ class NeumorphicGenerator extends HTMLElement {
 
     this.style.setProperty('--shadow-color-dark', darkShadow)
     this.style.setProperty('--shadow-color-light', lightShadow)
+    this.updateCodeValues()
   }
 
   handleColorChange(event: Event) {
@@ -207,23 +246,29 @@ class NeumorphicGenerator extends HTMLElement {
     colorInput.value = value
     colorPicker.value = value
     this.updateNeumorphicStyle('base-color', value)
-    const intensity = this.style.getPropertyValue('--intensity')
+    const intensity = this.style.getPropertyValue('--intensity') || 0.15
     const { darkShadow, lightShadow } = this.generateShadowColors(
       value,
       +intensity
     )
-    debugger
     this.style.setProperty('--shadow-color-dark', darkShadow)
     this.style.setProperty('--shadow-color-light', lightShadow)
+    const isLightColor = this.isLightColor(value)
+    if (isLightColor) {
+      root.style.setProperty('--color-text', '#001f3f')
+    } else {
+      root.style.setProperty('--color-text', '#fff')
+    }
     root.style.setProperty('--color-bg', value)
+    this.updateCodeValues()
   }
   // -------------------------------------------------
   private generateShadowColors(
     baseColor: string,
     intensity: number
   ): { darkShadow: string; lightShadow: string } {
-    const darkShadow = this.calculateDarkShadow(baseColor, intensity)
-    const lightShadow = this.calculateLightShadow(baseColor, intensity)
+    const darkShadow = this.calculateDarkShadow(baseColor, +intensity)
+    const lightShadow = this.calculateLightShadow(baseColor, +intensity)
     return { darkShadow, lightShadow }
   }
 
@@ -232,9 +277,9 @@ class NeumorphicGenerator extends HTMLElement {
     const g = parseInt(baseColor.slice(3, 5), 16)
     const b = parseInt(baseColor.slice(5, 7), 16)
 
-    const newR = Math.round(r * (1 - intensity * 0.5))
-    const newG = Math.round(g * (1 - intensity * 0.5))
-    const newB = Math.round(b * (1 - intensity * 0.5))
+    const newR = Math.round(r * (1 - intensity))
+    const newG = Math.round(g * (1 - intensity))
+    const newB = Math.round(b * (1 - intensity))
 
     return `#${newR.toString(16).padStart(2, '0')}${newG
       .toString(16)
@@ -246,9 +291,10 @@ class NeumorphicGenerator extends HTMLElement {
     const g = parseInt(baseColor.slice(3, 5), 16)
     const b = parseInt(baseColor.slice(5, 7), 16)
 
-    const newR = Math.round(r + (255 - r) * intensity * 0.5)
-    const newG = Math.round(g + (255 - g) * intensity * 0.5)
-    const newB = Math.round(b + (255 - b) * intensity * 0.5)
+    const factor = intensity * 1.5
+    const newR = Math.min(255, Math.round(r * (1 + factor)))
+    const newG = Math.min(255, Math.round(g * (1 + factor)))
+    const newB = Math.min(255, Math.round(b * (1 + factor)))
 
     return `#${newR.toString(16).padStart(2, '0')}${newG
       .toString(16)
@@ -307,7 +353,11 @@ class NeumorphicGenerator extends HTMLElement {
   handleSizeChange(event: Event) {
     const target = event.target as HTMLInputElement
     const sizeValue = target.value
+    const heightCheckbox = this.shadow.querySelector('#neu--height')
     this.updateNeumorphicStyle('element-size', sizeValue + 'px')
+    if (!heightCheckbox.checked) {
+      this.updateNeumorphicStyle('element-height', sizeValue + 'px')
+    }
     const elevationElement = this.shadow.querySelector('[data-type=elevation]')
     const elevationCalcVal = +sizeValue / 10 < 5 ? 5 : +sizeValue / 10
     elevationElement.value = elevationCalcVal.toString()
@@ -316,17 +366,19 @@ class NeumorphicGenerator extends HTMLElement {
     const blurEle = this.shadow.querySelector('[data-type=blur]')
     if (+elevationCalcVal < 5) return
     blurEle.value = (+elevationCalcVal * 2).toString()
+    this.updateCodeValues()
   }
   handleBlurChange(event: Event) {
     const target = event.target as HTMLInputElement
     const value = target.value
-    debugger
     this.updateNeumorphicStyle('blur-radius', (+value).toString())
+    this.updateCodeValues()
   }
 
   handleRadiusChange(event: Event) {
     const target = event.target as HTMLInputElement
     this.updateNeumorphicStyle('border-radius', target.value + '%')
+    this.updateCodeValues()
   }
   adjustColor(color: string, amount: number): string {
     const clamp = (num: number) => Math.min(Math.max(num, 0), 255)
@@ -338,7 +390,14 @@ class NeumorphicGenerator extends HTMLElement {
       .toString(16)
       .padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
   }
-
+  private isLightColor(color: string): boolean {
+    const hex = color.replace('#', '')
+    const r = parseInt(hex.substr(0, 2), 16)
+    const g = parseInt(hex.substr(2, 2), 16)
+    const b = parseInt(hex.substr(4, 2), 16)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    return luminance > 0.5
+  }
   getHostCSSVariable(variableName: string): string {
     return getComputedStyle(this).getPropertyValue(variableName).trim()
   }
@@ -346,7 +405,31 @@ class NeumorphicGenerator extends HTMLElement {
   updateNeumorphicStyle(property: string, value: string) {
     this.shadow.host.style.setProperty(`--${property}`, value)
   }
+  updateCodeValues() {
+    const neumorphicElement = this.shadow.querySelector('.neumorphic-element')
+    const borderRadius = this.shadow.querySelector(
+      '[data-value="border-radius"]'
+    )
+    const background = this.shadow.querySelector('[data-value="background"]')
+    const boxShadow = this.shadow.querySelector('[data-value="box-shadow"]')
+    const computedStyle = window.getComputedStyle(neumorphicElement)
 
+    borderRadius.textContent = `${computedStyle.borderRadius};`
+    background.textContent = `${this.rgbaToHex(computedStyle.backgroundColor)};`
+    boxShadow.textContent = `${computedStyle.boxShadow};`
+  }
+  private rgbaToHex(rgba: string): string {
+    const parts = rgba.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    )
+    if (!parts) return rgba // Return original if not rgba
+
+    const r = parseInt(parts[1], 10)
+    const g = parseInt(parts[2], 10)
+    const b = parseInt(parts[3], 10)
+
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+  }
   removeListeners() {
     const controlsContainer = this.shadow.querySelector('#neu-controls')
     if (controlsContainer) {
