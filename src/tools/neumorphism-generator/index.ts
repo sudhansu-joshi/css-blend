@@ -413,21 +413,14 @@ class NeumorphicGenerator extends HTMLElement {
     const computedStyle = window.getComputedStyle(neumorphicElement)
 
     borderRadius.textContent = `${computedStyle.borderRadius};`
-    background.textContent = `${this.rgbaToHex(computedStyle.backgroundColor)};`
+    background.textContent = `${
+      computedStyle.backgroundImage !== 'none'
+        ? computedStyle.backgroundImage
+        : computedStyle.backgroundColor
+    };`
     boxShadow.textContent = `${computedStyle.boxShadow};`
   }
-  private rgbaToHex(rgba: string): string {
-    const parts = rgba.match(
-      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
-    )
-    if (!parts) return rgba // Return original if not rgba
 
-    const r = parseInt(parts[1], 10)
-    const g = parseInt(parts[2], 10)
-    const b = parseInt(parts[3], 10)
-
-    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-  }
   removeListeners() {
     const controlsContainer = this.shadow.querySelector('#neu-controls')
     if (controlsContainer) {

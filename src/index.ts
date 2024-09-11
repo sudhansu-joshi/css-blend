@@ -2,8 +2,7 @@ import { loadNonCriticalFonts } from './fontLoader'
 import { renderHomePage } from './tools/home'
 import './tools/neumorphism-generator'
 import { neumorphicGeneratorPage } from './tools/neumorphism-generator'
-import './styles/themes/_light.css'
-import './styles/themes/_dark.css'
+
 // Lazy load non-critical fonts
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {
