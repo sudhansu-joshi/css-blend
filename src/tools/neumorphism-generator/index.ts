@@ -1,5 +1,3 @@
-import { debug } from 'console'
-
 class NeumorphicGenerator extends HTMLElement {
   shadow: any
   constructor() {
@@ -172,7 +170,7 @@ class NeumorphicGenerator extends HTMLElement {
   handleShapeChange(event: Event) {
     const target = event.target as HTMLSelectElement
     const shape = target.value
-    const element = this.shadow.querySelector('.neu-box--visual') as HTMLElement
+    // const element = this.shadow.querySelector('.neu-box--visual') as HTMLElement
     const colorPicker = this.shadow.querySelector(
       '[data-type="colorPicker"]'
     ) as HTMLInputElement

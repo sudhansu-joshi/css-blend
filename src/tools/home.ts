@@ -43,10 +43,10 @@ export function renderHomePage() {
   if (themeLink) {
     themeLink.setAttribute('href', themePath)
   }
-  const dayDynamicUrl = new URL(
-    '../assets//icons//day-mode.png',
-    import.meta.url
-  )
+  // const dayDynamicUrl = new URL(
+  //   '../assets//icons//day-mode.png',
+  //   import.meta.url
+  // )
   if (app) {
     app.innerHTML = `<div class="home-page">
   <header class="homepage--header">
