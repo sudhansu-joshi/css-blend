@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify'
+
 class NeumorphicGenerator extends HTMLElement {
   shadow: any
   constructor() {
@@ -241,8 +243,9 @@ class NeumorphicGenerator extends HTMLElement {
     if (value.length < 7) return
     const colorInput = this.shadow.querySelector('#neu--baseColorText')
     const colorPicker = this.shadow.querySelector('#neu--baseColor')
-    colorInput.value = value
-    colorPicker.value = value
+    const sanitizedValue = DOMPurify.sanitize(value)
+    colorInput.value = sanitizedValue
+    colorPicker.value = sanitizedValue
     this.updateNeumorphicStyle('base-color', value)
     const intensity = this.style.getPropertyValue('--intensity') || 0.15
     const { darkShadow, lightShadow } = this.generateShadowColors(
